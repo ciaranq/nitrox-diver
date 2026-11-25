@@ -1,0 +1,14 @@
+{
+  "name": "nitrox-course",
+  "private": true,
+  "description": "Metric, agency-neutral Enriched Air Nitrox study course (static site).",
+  "scripts": {
+    "dev": "bun run build && bun scripts/serve.ts",
+    "lint": "bun scripts/lint.ts",
+    "test": "bun test",
+    "build": "bun scripts/build.ts",
+    "preflight": "bun run lint && bun run test && bun run build",
+    "vercel-build": "bun run preflight",
+    "prepare": "git config core.hooksPath .githooks || true"
+  }
+}

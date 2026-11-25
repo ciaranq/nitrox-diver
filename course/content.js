@@ -1,0 +1,351 @@
+/* Course content: nine modules, each a reading (trusted HTML) and a multiple-choice quiz.
+   Quiz format: {q, a: [correct, wrong, wrong, wrong], why}. Options are shuffled at render time.
+   Requires nitrox-math.js first. Exposed as globalThis.NitroxContent. */
+(function (root) {
+"use strict";
+var M = root.NitroxMath;
+if (!M) throw new Error("content.js needs nitrox-math.js loaded first");
+var NOAA = M.NOAA, fl = M.fl, f1 = M.f1, f2 = M.f2;
+var PO2="PO<sub>2</sub>", FO2="FO<sub>2</sub>", FN2="FN<sub>2</sub>", PN2="PN<sub>2</sub>", O2="O<sub>2</sub>", N2="N<sub>2</sub>", CO2="CO<sub>2</sub>";
+
+var MODULES=[
+{id:"m1",title:"What nitrox is and why divers use it",short:"Nitrox basics",mins:12,
+summary:"Mixes, history, the real benefit, the trade-offs and the myths.",
+reading:
+"<h3>Definition</h3>"+
+"<p><b>Enriched Air Nitrox (EANx)</b> is any nitrogen/oxygen breathing gas with <b>more than 21% oxygen</b>. Recreational nitrox certification covers <b>EAN22 to EAN40</b>, a single gas with no decompression stops. The number after EAN is the oxygen percentage, so <b>EAN36</b> is 36% "+O2+" and 64% "+N2+". Air is treated as 21% "+O2+" and 79% "+N2+" in every calculation.</p>"+
+"<div class='tbl'><table><tr><th>Mix</th><th>Other names</th><th>Typical use</th></tr>"+
+"<tr><td class='mono'>EAN32</td><td>NOAA Nitrox I, Nitrox 32</td><td>All-rounder. Working limit 33 m.</td></tr>"+
+"<tr><td class='mono'>EAN36</td><td>NOAA Nitrox II, Nitrox 36</td><td>Long bottom times from about 18 to 28 m</td></tr>"+
+"<tr><td class='mono'>EAN22&ndash;40</td><td>Custom or &ldquo;best mix&rdquo;</td><td>Blended for one planned depth</td></tr></table></div>"+
+"<h3>A short history</h3>"+
+"<ul><li><b>1979:</b> NOAA publishes Nitrox I (32%) tables in the NOAA Diving Manual. Nitrox II (36%) is authorised later.</li>"+
+"<li><b>1985:</b> Dick Rutkowski, retired head of NOAA diver training, starts teaching nitrox to sport divers. The industry pushes back hard at first.</li>"+
+"<li><b>2000:</b> the DAN Nitrox Workshop reviews agency and field data and concludes that <b>no evidence showed an increased DCS risk from nitrox compared with air</b>.</li></ul>"+
+"<h3>The real benefit is less nitrogen</h3>"+
+"<p>Nitrox helps because it contains <b>less nitrogen</b>, not because it contains more oxygen. At the same depth and time you absorb less nitrogen, which gives you one of three options:</p>"+
+"<ol><li><b>Longer no-stop limits</b>. On tables, around 30 m goes from about 20 minutes on air to about 30 minutes on EAN32.</li><li><b>Shorter surface intervals</b> between repeat dives.</li><li><b>More safety margin</b>, if you dive nitrox but plan with air limits.</li></ol>"+
+"<div class='callout key'><b>Where nitrox pays off</b>Roughly <b>15 to 30 m</b>. Shallower than about 15 m, your gas runs out before your air no-stop limit does. Deeper than about 30 m, oxygen limits start to stop you. With a nitrox computer on a multilevel dive, <b>most dives end on gas supply, not no-stop time</b>.</div>"+
+"<h3>The costs</h3>"+
+"<ul><li><b>A shallower depth limit</b> (MOD), because oxygen becomes toxic under pressure.</li><li>Oxygen exposure tracking (the CNS clock).</li><li>You must <b>analyse every cylinder yourself</b>, then label it and sign the log.</li><li>Equipment considerations above 40% "+O2+", and oxygen-clean cylinders for some blending methods.</li><li>Fills usually cost more.</li></ul>"+
+"<h3>Myths</h3>"+
+"<div class='tbl'><table><tr><th>Myth</th><th>Reality</th></tr>"+
+"<tr><td>Nitrox lets you dive deeper</td><td><b>False.</b> Its maximum depth is shallower than air's. Tech divers use nitrox for shallow decompression stops, not for the deep part of a dive.</td></tr>"+
+"<tr><td>Nitrox reduces narcosis</td><td><b>Don't rely on it.</b> Oxygen is thought to be about as narcotic as nitrogen, and narcosis depths are beyond nitrox limits anyway. Treat narcosis exactly as you would on air.</td></tr>"+
+"<tr><td>Nitrox lowers gas consumption</td><td><b>False.</b> Your urge to breathe comes from "+CO2+", not oxygen. Your tank lasts just as long.</td></tr>"+
+"<tr><td>Nitrox prevents fatigue</td><td>A blinded study (unmarked air and nitrox tanks) found no difference. It's a placebo effect.</td></tr>"+
+"<tr><td>Nitrox prevents DCS</td><td><b>False.</b> It reduces nitrogen loading. You still need slow ascents, safety stops and your limits.</td></tr></table></div>"+
+"<div class='callout'><b>Your depth limit doesn't change</b>Nitrox certification never extends the depth your base certification allows. An Open Water diver limited to 18 or 20 m keeps that limit on EAN32, even though EAN32's MOD is 33 m.</div>"+
+"<p class='src'>Sources: TDI Diver Standards §6, DAN Nitrox Workshop Proceedings (2000), RAID Nitrox manual, Scuba Diving magazine guide, SSI class transcript.</p>",
+quiz:[
+{q:"What oxygen range does recreational nitrox certification cover?",a:["22% to 40%","21% to 50%","32% and 36% only","40% to 100%"],why:"Entry-level nitrox (TDI, PADI, SSI, RAID) covers EAN22 to EAN40. Mixes above 40% belong to Advanced Nitrox or decompression courses."},
+{q:"What is the main reason recreational divers use nitrox?",a:["It has less nitrogen, so no-stop limits are longer and surface intervals shorter","It lets you dive deeper than on air","It reduces gas consumption","It removes nitrogen narcosis"],why:"The benefit comes from the lower nitrogen fraction. Nitrox is actually more depth-limited than air."},
+{q:"A cylinder is labelled EAN36. What does it contain?",a:["36% oxygen and 64% nitrogen","36% nitrogen and 64% oxygen","36% oxygen and 64% air","Oxygen at 3.6 bar"],why:"The EAN number is always the oxygen percentage. The rest is nitrogen."},
+{q:"How should you treat narcosis on nitrox compared with air at the same depth?",a:["The same as on air. Oxygen is thought to be narcotic too.","Nitrox removes narcosis","Nitrox halves narcosis","Nitrox makes narcosis much worse"],why:"Oxygen is thought to be about as narcotic as nitrogen, so plan for narcosis exactly as you would on air."},
+{q:"Does nitrox reduce your gas consumption?",a:["No. Breathing is driven by CO₂, so consumption is the same.","Yes, by about 10%","Yes, because each breath carries more oxygen","Only in cold water"],why:"Most inhaled oxygen is exhaled unused. CO₂ triggers each breath, and the mix in your tank doesn't change that."},
+{q:"Roughly which depth range gives the biggest practical benefit from nitrox?",a:["About 15 to 30 m","0 to 10 m","40 to 60 m","Only below 30 m"],why:"Shallower than about 15 m, gas runs out first anyway. Deeper than about 30 m, oxygen limits cut in."},
+{q:"An Open Water diver certified to 20 m completes a nitrox course. What is their maximum depth on EAN32?",a:["20 m. Nitrox never extends your base certification.","33 m, the MOD of EAN32","40 m","30 m"],why:"MOD is an oxygen limit, not a qualification. Your training limit always applies."},
+{q:"What did the 2000 DAN Nitrox Workshop conclude about DCS risk?",a:["No evidence showed an increased DCS risk on nitrox compared with air","Nitrox doubles DCS risk","Nitrox removes DCS risk","Only technical divers should use nitrox"],why:"That was the workshop's first consensus recommendation for recreational open-circuit nitrox."}
+]},
+
+{id:"m2",title:"Gas physics: pressure, Dalton and Henry",short:"Gas physics",mins:12,
+summary:"Absolute pressure in metres, partial pressures and the T formula.",
+reading:
+"<h3>Pressure in metres</h3>"+
+"<p>At the surface you are at <b>1 bar</b>. Each <b>10 m of seawater adds 1 bar</b>. Fresh water is slightly less dense (about 10.3 m per bar), but metric exams use 10 m.</p>"+
+"<div class='formula'>P<sub>abs</sub> (bar) = depth (m) &divide; 10 + 1</div>"+
+"<div class='tbl'><table><tr><th class='num'>Depth</th><th class='num'>0 m</th><th class='num'>10 m</th><th class='num'>18 m</th><th class='num'>20 m</th><th class='num'>25 m</th><th class='num'>30 m</th><th class='num'>40 m</th></tr>"+
+"<tr><td>P<sub>abs</sub></td><td class='num'>1.0</td><td class='num'>2.0</td><td class='num'>2.8</td><td class='num'>3.0</td><td class='num'>3.5</td><td class='num'>4.0</td><td class='num'>5.0</td></tr></table></div>"+
+"<h3>Dalton's law: partial pressures</h3>"+
+"<p>The total pressure of a gas mixture is the sum of the partial pressures of its gases. Each gas's partial pressure is its <b>fraction</b> times the <b>absolute pressure</b>.</p>"+
+"<div class='formula'>"+PO2+" = "+FO2+" &times; P<sub>abs</sub> &nbsp;&nbsp;&nbsp; "+PN2+" = "+FN2+" &times; P<sub>abs</sub><small>Write fractions as decimals: 32% = 0.32, and "+FN2+" = 1 &minus; "+FO2+".</small></div>"+
+"<div class='callout'><b>Common exam trap</b>The <i>percentage</i> in your tank never changes with depth. Air at 10 m is still 21% "+O2+". What doubles is the partial pressure, which goes from 0.21 to <b>0.42 bar</b>.</div>"+
+"<h3>The T formula</h3>"+
+"<p>RAID calls it the <b>T formula</b>. Others draw it as a triangle. Cover the value you want:</p>"+
+"<div class='formula'>P<sub>g</sub> = F<sub>g</sub> &times; P &nbsp;&nbsp;|&nbsp;&nbsp; F<sub>g</sub> = P<sub>g</sub> &divide; P &nbsp;&nbsp;|&nbsp;&nbsp; P = P<sub>g</sub> &divide; F<sub>g</sub><small>P<sub>g</sub> is the partial pressure, F<sub>g</sub> the gas fraction and P the absolute pressure in bar. The first gives "+PO2+", the second gives best mix, and the third gives the maximum pressure. Then (P &minus; 1) &times; 10 gives the depth in metres.</small></div>"+
+"<h3>Henry's law: why nitrogen loads</h3>"+
+"<p>The amount of gas that dissolves into a liquid (your blood and tissues) is proportional to that gas's <b>partial pressure</b>. Deeper and longer means more nitrogen dissolved. Lowering "+FN2+" lowers "+PN2+", which is the whole point of nitrox. Exertion and cold also increase uptake.</p>"+
+"<h3>Worked examples</h3>"+
+"<div class='tbl'><table><tr><th>Gas and depth</th><th class='num'>P<sub>abs</sub></th><th class='num'>"+PO2+"</th><th class='num'>"+PN2+"</th></tr>"+
+"<tr><td>Air at 30 m</td><td class='num'>4.0</td><td class='num'>0.84</td><td class='num'>3.16</td></tr>"+
+"<tr><td>EAN32 at 30 m</td><td class='num'>4.0</td><td class='num'>1.28</td><td class='num'>2.72</td></tr>"+
+"<tr><td>EAN36 at 25 m</td><td class='num'>3.5</td><td class='num'>1.26</td><td class='num'>2.24</td></tr>"+
+"<tr><td>EAN40 at 25 m</td><td class='num'>3.5</td><td class='num'>1.40</td><td class='num'>2.10</td></tr></table></div>"+
+"<p class='src'>Sources: TDI Diver Standards §6.10 (physics), RAID Nitrox manual (T formula), SSI class transcript.</p>",
+quiz:[
+{q:"What is the absolute pressure at 25 m in seawater?",a:["3.5 bar","2.5 bar","3.0 bar","4.5 bar"],why:"25 ÷ 10 + 1 = 3.5 bar. The +1 is the atmosphere above the water."},
+{q:"Which law says the total pressure of a gas mix is the sum of its partial pressures?",a:["Dalton's law","Boyle's law","Henry's law","Charles's law"],why:"Dalton's law is the basis of every PO₂ and PN₂ calculation."},
+{q:"Why does Henry's law matter for nitrox?",a:["The gas dissolving into your tissues is proportional to its partial pressure, so a lower PN₂ means less nitrogen loading","It explains why tanks heat up when filled","It sets the 1.4 bar limit","It describes how gas volume changes with depth"],why:"Lower FN₂ means lower PN₂ at depth, which means less nitrogen dissolved."},
+{q:"You breathe air at 10 m. Which statement is correct?",a:["The mix is still 21% O₂, but the PO₂ is 0.42 bar","The mix becomes 42% O₂","The PO₂ stays at 0.21 bar","The nitrogen becomes 158%"],why:"Fractions never change with depth. Partial pressures scale with absolute pressure (0.21 × 2 = 0.42)."},
+{q:"What is the PO₂ of EAN32 at 30 m?",a:["1.28 bar","0.96 bar","1.60 bar","1.12 bar"],why:"0.32 × 4.0 = 1.28 bar. 0.96 comes from forgetting the +1 bar; 1.12 uses 3.5 bar."},
+{q:"What is the PN₂ of EAN36 at 20 m?",a:["1.92 bar","1.08 bar","1.28 bar","2.37 bar"],why:"FN₂ = 0.64 and P = 3.0 bar, so 0.64 × 3.0 = 1.92 bar. 2.37 is air's PN₂ at 20 m."},
+{q:"Using the T formula, how do you find the best oxygen fraction for a depth?",a:["Divide the maximum PO₂ by the absolute pressure","Divide the absolute pressure by the maximum PO₂","Multiply the maximum PO₂ by the absolute pressure","Subtract the absolute pressure from the maximum PO₂"],why:"Fg = Pg ÷ P. For example, 1.4 ÷ 4.0 = 0.35 (35%) at 30 m."},
+{q:"Which conversion do metric nitrox exams use?",a:["10 m of seawater = 1 bar","33 m = 1 bar","1 m = 1 bar","10 m = 0.1 bar"],why:"33 is the imperial figure (33 feet of seawater = 1 atm)."}
+]},
+
+{id:"m3",title:"Oxygen: limits, toxicity and the CNS clock",short:"Oxygen toxicity",mins:15,
+summary:"Hypoxia, CNS and pulmonary toxicity, the 1.4 and 1.6 bar limits, NOAA exposure limits and OTUs.",
+reading:
+"<h3>Too little and too much</h3>"+
+"<div class='tbl'><table><tr><th class='num'>"+PO2+" (bar)</th><th>Effect</th></tr>"+
+"<tr><td class='num'>below ~0.16</td><td>Hypoxia: impaired thinking and coordination</td></tr>"+
+"<tr><td class='num'>~0.10</td><td>Unconsciousness</td></tr>"+
+"<tr><td class='num'>0.21</td><td>Air at the surface</td></tr>"+
+"<tr><td class='num'>above 0.5 for hours</td><td>Pulmonary (whole-body) toxicity risk builds up</td></tr>"+
+"<tr><td class='num'><b>1.4</b></td><td><b>Maximum working limit</b> for recreational nitrox</td></tr>"+
+"<tr><td class='num'><b>1.6</b></td><td><b>Absolute maximum or contingency limit</b>. CNS risk rises sharply above it.</td></tr></table></div>"+
+"<h3>CNS oxygen toxicity (the Paul Bert effect)</h3>"+
+"<p>Caused by a high "+PO2+" over a short period. This is the <b>main hazard of nitrox diving</b>. A convulsion is not harmful in itself, but underwater the diver loses the regulator and drowns. Learn the warning signs with <b>CONVENTID</b>:</p>"+
+"<div class='tbl'><table><tr><th>Letter</th><th>Sign</th><th>Who notices</th></tr>"+
+"<tr><td class='mono'>CON</td><td>Convulsions</td><td>Buddy</td></tr><tr><td class='mono'>V</td><td>Visual disturbance (tunnel vision)</td><td>You</td></tr>"+
+"<tr><td class='mono'>E</td><td>Ears ringing (tinnitus)</td><td>You</td></tr><tr><td class='mono'>N</td><td>Nausea</td><td>You</td></tr>"+
+"<tr><td class='mono'>T</td><td>Twitching, especially lips and face</td><td>Both</td></tr><tr><td class='mono'>I</td><td>Irritability or anxiety</td><td>Both</td></tr>"+
+"<tr><td class='mono'>D</td><td>Dizziness</td><td>You</td></tr></table></div>"+
+"<div class='callout danger'><b>No warning</b>Most oxygen convulsions happen <b>without any earlier symptoms</b>. You can't rely on noticing a warning sign. Your only protection is never exceeding your planned "+PO2+".</div>"+
+"<p><b>Things that raise CNS risk:</b> hard work underwater and "+CO2+" build-up, cold, immersion itself, and your own day-to-day variability. That's why TDI has you choose a planning "+PO2+" between <b>1.3 and 1.6</b> to suit the conditions, and why most agencies default to <b>1.4</b>.</p>"+
+"<h3>Pulmonary oxygen toxicity (the Lorrain Smith effect)</h3>"+
+"<p>Caused by long exposure (hours) above about 0.5 bar. Symptoms are a burning throat, dry cough and chest tightness. It's measured in <b>OTUs</b> (oxygen tolerance units), for example 850 OTU for a single day. The 2000 DAN workshop concluded that <b>recreational divers don't need to track OTUs</b>, but you should know what they are.</p>"+
+"<h3>The CNS clock (NOAA limits)</h3>"+
+"<p>Each "+PO2+" has a maximum exposure time. CNS% = time spent &divide; limit &times; 100. Stay under <b>100%</b> for a single dive and for 24 hours. Your nitrox computer tracks this for you.</p>"+
+"<div class='tbl'><table><tr><th class='num'>"+PO2+" (bar)</th><th class='num'>Single dive (min)</th><th class='num'>24 hours (min)</th><th class='num'>CNS% per minute</th></tr>"+
+NOAA.slice(0,7).map(function(r){return "<tr><td class='num'>"+r[0].toFixed(1)+"</td><td class='num'>"+r[1]+"</td><td class='num'>"+r[2]+"</td><td class='num'>"+f2(100/r[1])+"</td></tr>";}).join("")+"</table></div>"+
+"<div class='formula'>Example: 45 min at 1.4 bar = 45 &divide; 150 = 30% CNS<small>At the surface CNS% halves roughly every <b>90 minutes</b>. 60% becomes 30% after 90 min and 15% after 180 min.</small></div>"+
+"<div class='callout'><b>RAID rule</b>If you exceed <b>1.6 bar</b>, count the dive as <b>100% CNS</b> and stay out of the water for <b>24 hours</b>.</div>"+
+"<p class='src'>Sources: DAN Nitrox Workshop Proceedings (2000) consensus, TDI Diver Standards §6.11, RAID Nitrox manual (CNS and OTU tables), SSI class transcript.</p>",
+quiz:[
+{q:"What is the recommended maximum working PO₂ for recreational nitrox?",a:["1.4 bar","1.2 bar","1.6 bar","2.0 bar"],why:"1.4 bar is the default working limit across agencies. 1.6 is the absolute maximum or contingency limit."},
+{q:"What is the absolute maximum, or contingency, PO₂ limit?",a:["1.6 bar","1.4 bar","1.5 bar","1.8 bar"],why:"The DAN workshop accepted 1.6 bar as the maximum. CNS risk rises sharply above it."},
+{q:"What is the most dangerous effect of CNS oxygen toxicity underwater?",a:["A sudden convulsion, losing the regulator and drowning","A dry cough after the dive","Joint pain","Faster nitrogen absorption"],why:"The convulsion itself does little harm. Drowning is what kills."},
+{q:"Which of these is NOT a CONVENTID warning sign?",a:["Joint pain","Tunnel vision","Ringing in the ears","Lip twitching"],why:"Joint pain is a classic DCS symptom. CONVENTID covers convulsions, vision, ears, nausea, twitching, irritability and dizziness."},
+{q:"What is true about warning signs before an oxygen convulsion?",a:["Convulsions often happen with no warning at all","Twitching always comes at least 10 minutes before","Symptoms only appear above 2.0 bar","They are caused by too little oxygen"],why:"Most convulsions have no warning signs, so staying within your PO₂ limit is the only defence."},
+{q:"What causes pulmonary (whole-body) oxygen toxicity?",a:["Many hours of exposure above about 0.5 bar. It's rarely a concern on recreational dives.","A single minute at 1.4 bar","Breathing air at the surface","Nitrogen narcosis"],why:"It's tracked in OTUs. DAN concluded recreational divers don't need to track OTUs."},
+{q:"You spend 75 minutes at a PO₂ of 1.4 bar (NOAA single-dive limit 150 min). What CNS% have you used?",a:["50%","75%","25%","100%"],why:"75 ÷ 150 × 100 = 50%."},
+{q:"You surface with 60% CNS and wait 90 minutes. Roughly what CNS% do you start the next dive with?",a:["30%","60%","45%","0%"],why:"CNS% halves roughly every 90 minutes at the surface."},
+{q:"Which conditions increase the risk of CNS oxygen toxicity?",a:["Hard work (CO₂ build-up) and cold water","Warm, calm water","Shallow depth","Using a dive computer"],why:"That's why TDI lets you plan with a PO₂ between 1.3 and 1.6 to suit the conditions."},
+{q:"Below roughly what PO₂ does hypoxia start to impair a diver?",a:["0.16 bar","0.21 bar","0.50 bar","1.4 bar"],why:"Below about 0.16 bar thinking and coordination suffer, and unconsciousness comes at about 0.10 bar."}
+]},
+
+{id:"m4",title:"Maximum depth (MOD) and best mix",short:"MOD and best mix",mins:15,
+summary:"Calculating MOD, contingency depth and best mix in metres, and the rounding rules.",
+reading:
+"<h3>Maximum operating depth (MOD)</h3>"+
+"<p>MOD is the deepest you can go before your "+PO2+" goes over the limit you chose.</p>"+
+"<div class='formula'>MOD (m) = ( "+PO2+"max &divide; "+FO2+" &minus; 1 ) &times; 10<small>Always <b>round down</b>. For EAN32 at 1.4: (1.4 &divide; 0.32 &minus; 1) &times; 10 = 33.75, so <b>33 m</b>.</small></div>"+
+"<div class='tbl'><table><tr><th>Mix</th><th class='num'>MOD at 1.4 bar</th><th class='num'>Rounded</th><th class='num'>Contingency at 1.6 bar</th></tr>"+
+[28,30,32,34,36,38,40].map(function(p){var f=p/100,a=(1.4/f-1)*10,b=(1.6/f-1)*10;return "<tr><td class='mono'>EAN"+p+"</td><td class='num'>"+f2(a)+" m</td><td class='num'><b>"+fl(a)+" m</b></td><td class='num'>"+f1(b)+" m</td></tr>";}).join("")+
+"<tr><td class='mono'>Air (21%)</td><td class='num'>56.67 m</td><td class='num'><b>56 m</b></td><td class='num'>66.2 m</td></tr></table></div>"+
+"<div class='callout key'><b>Terms differ between agencies</b><b>PADI, SSI, TDI and BSAC</b> call the 1.4 bar depth the <b>MOD</b> and the 1.6 bar depth the <b>contingency depth</b>.<br><b>RAID</b> calls the 1.4 bar depth the <b>TOD</b> (target operating depth) and the 1.6 bar depth the <b>MOD</b>, a hard limit you never cross. Read each exam question carefully.</div>"+
+"<h3>Best mix</h3>"+
+"<p>Best mix is the <b>highest oxygen percentage</b> you can use for a planned maximum depth without going over your "+PO2+" limit. It gives you the longest no-stop time for that depth.</p>"+
+"<div class='formula'>Best "+FO2+" = "+PO2+"max &divide; ( depth &divide; 10 + 1 )<small>Always <b>round down</b> to a whole percentage, or to the next premix below. Never go above 40% on a recreational certification.</small></div>"+
+"<div class='tbl'><table><tr><th class='num'>Planned depth</th><th class='num'>P<sub>abs</sub></th><th class='num'>1.4 &divide; P</th><th>Best mix</th></tr>"+
+[[18,"50.0% &rarr; capped at <b>EAN40</b>"],[25,"<b>EAN40</b>"],[28,"36.8% &rarr; <b>EAN36</b>"],[30,"<b>EAN35</b> (EAN32 if only premix is available)"],[33,"32.6% &rarr; <b>EAN32</b>"],[35,"31.1% &rarr; <b>EAN31</b>"]].map(function(r){var P=r[0]/10+1;return "<tr><td class='num'>"+r[0]+" m</td><td class='num'>"+P.toFixed(1)+"</td><td class='num'>"+(1.4/P*100).toFixed(1)+"%</td><td>"+r[1]+"</td></tr>";}).join("")+"</table></div>"+
+"<h3>Checking a mix against a plan</h3>"+
+"<p>Can you dive EAN36 to 32 m? "+PO2+" = 0.36 &times; 4.2 = <b>1.51 bar</b>, which is over 1.4. No. EAN32 gives 0.32 &times; 4.2 = 1.34 bar, which is within the limit.</p>"+
+"<div class='callout'><b>Rounding rules</b>Round <b>MOD down</b> and <b>best mix down</b>. Both are oxygen limits, so rounding the wrong way puts you over the limit. (EAD in Module 5 rounds <b>up</b>.)</div>"+
+"<p class='src'>Sources: TDI Diver Standards §6.11 (written plan to MOD), RAID Nitrox manual (TOD and MOD), SSI class transcript, existing course syllabus.</p>",
+quiz:[
+{q:"What is the MOD of EAN32 at a PO₂ of 1.4 bar?",a:["33 m","34 m","40 m","28 m"],why:"(1.4 ÷ 0.32 − 1) × 10 = 33.75, rounded down to 33 m. 40 m is the 1.6 bar contingency depth."},
+{q:"How do you round a MOD result such as 28.89 m?",a:["Down, to 28 m","Up, to 29 m","To the nearest whole number","Add a 2 m buffer to the exact value"],why:"MOD is an oxygen limit. Rounding up would put you past it."},
+{q:"What is the contingency depth (PO₂ 1.6 bar) for EAN36?",a:["34 m","28 m","36 m","40 m"],why:"(1.6 ÷ 0.36 − 1) × 10 = 34.4 m, so 34 m."},
+{q:"What is the MOD of EAN40 at 1.4 bar?",a:["25 m","30 m","40 m","21 m"],why:"(1.4 ÷ 0.40 − 1) × 10 = 25 m exactly. 30 m is its 1.6 bar depth."},
+{q:"What is the best mix for a dive to 30 m at 1.4 bar?",a:["EAN35","EAN40","EAN32","EAN28"],why:"1.4 ÷ 4.0 = 0.35. EAN32 would be acceptable, but it isn't the best mix."},
+{q:"Best mix for an 18 m dive works out to 50%. What do you use on a recreational nitrox card?",a:["EAN40, the recreational maximum","EAN50","Air","EAN45"],why:"Recreational nitrox certification stops at 40% O₂."},
+{q:"In RAID terminology, what is the difference between TOD and MOD?",a:["TOD is the planned limit at 1.4 bar. MOD is the hard limit at 1.6 bar.","They mean the same thing","TOD is at 1.6 bar and MOD at 1.4 bar","TOD is a no-stop time"],why:"RAID uses TOD for the working depth. Most other agencies call that the MOD."},
+{q:"You plan a 32 m dive. Your shop has EAN36 and EAN32. Which can you use at 1.4 bar?",a:["EAN32 only (PO₂ 1.34 bar). EAN36 would be 1.51 bar.","EAN36 only","Both","Neither"],why:"Pabs = 4.2 bar. 0.36 × 4.2 = 1.51, which is over the limit. 0.32 × 4.2 = 1.34, which is fine."},
+{q:"A best-mix calculation gives 36.8%. What do you order?",a:["EAN36. Round down.","EAN37. Round up.","EAN40","EAN32 only"],why:"Rounding best mix up would put your PO₂ over the limit at the planned depth."}
+]},
+
+{id:"m5",title:"Nitrogen, EAD and dive planning",short:"EAD and planning",mins:14,
+summary:"Equivalent air depth, nitrox tables, setting up a computer, repeat dives and gas planning.",
+reading:
+"<h3>Equivalent air depth (EAD)</h3>"+
+"<p>EAD is the depth at which <b>air</b> would give the same nitrogen partial pressure as your nitrox does at your actual depth. Use it to plan nitrox dives with ordinary air tables.</p>"+
+"<div class='formula'>EAD (m) = ( "+FN2+" &divide; 0.79 &times; P<sub>abs</sub> &minus; 1 ) &times; 10<small>Always <b>round up</b> to the next deeper table depth. That's conservative, because it assumes more nitrogen.</small></div>"+
+"<div class='tbl'><table><tr><th class='num'>Actual depth</th><th class='num'>EAD on EAN32</th><th class='num'>EAD on EAN36</th></tr>"+
+[18,20,25,28,30].map(function(d){var P=d/10+1;return "<tr><td class='num'>"+d+" m</td><td class='num'>"+f1((0.68/0.79*P-1)*10)+" m</td><td class='num'>"+f1((0.64/0.79*P-1)*10)+" m</td></tr>";}).join("")+"</table></div>"+
+"<p>Worked example: EAN32 at 30 m gives (0.68 &divide; 0.79 &times; 4.0 &minus; 1) &times; 10 = 24.4 m, so you enter the air table at <b>25 m</b> (or the next row deeper).</p>"+
+"<h3>Planning with tables</h3>"+
+"<ul><li>Use <b>nitrox tables</b> for your exact mix, or <b>air tables at the EAD</b>.</li>"+
+"<li>The usual table sequence: EAD (rounded up) &rarr; no-stop limit and pressure group &rarr; surface interval &rarr; residual nitrogen time &rarr; adjusted no-stop limit.</li>"+
+"<li><b>Nitrox planned with air limits</b> is valid and gives you a physiological safety margin (a TDI course topic). Respect the nitrox MOD as well.</li>"+
+"<li><b>Changing mixes between repeat dives</b>: your residual nitrogen carries over. Recalculate MOD and EAD for each new mix. A computer handles this if you update the "+O2+" setting.</li></ul>"+
+"<h3>Setting up a nitrox computer</h3>"+
+"<ol><li>Set the "+O2+" percentage <b>before every dive</b>, to the <b>analysed</b> value, never the label or the value you ordered.</li>"+
+"<li>RAID rule: <b>never round the analysed value up</b>. A reading of 32.8% goes in as 32%, because rounding up would understate nitrogen loading. Work out your <b>MOD from the actual analysed figure</b> (32.8%), which gives the shallower, safer depth.</li>"+
+"<li>Set the "+PO2+" alarm to <b>1.4 bar</b>.</li>"+
+"<li>Check that the computer shows CNS%, and know where to find it.</li>"+
+"<li>Never share a computer between dives. Its tissue data belongs to one diver.</li></ol>"+
+"<div class='callout'><b>Using an air computer</b>An air computer (set to 21%) gives you a conservative no-stop limit on nitrox, but it <b>won't warn you about oxygen limits</b>. Only do this if you work out your MOD separately and never exceed it. A nitrox computer that resets to 21% between dives has the same problem.</div>"+
+"<h3>Gas supply and limits that don't change</h3>"+
+"<ul><li>Longer no-stop limits mean <b>gas supply usually becomes the limit</b>. Plan turn pressures. RAID plans to reach the reserve at <b>50 bar</b> and to surface with at least <b>30 bar</b>.</li>"+
+"<li>Ascend slowly (about <b>9 to 10 m/min</b>, or as your agency teaches) and make a <b>3 to 5 minute safety stop at 5 m</b>.</li>"+
+"<li>Follow your computer's no-fly time. Nitrox doesn't change the flying rules.</li></ul>"+
+"<p class='src'>Sources: TDI Diver Standards §6.10 (tables, computers, switching mixes), RAID Nitrox manual (computer and gas rules), existing course syllabus.</p>",
+quiz:[
+{q:"What does equivalent air depth (EAD) mean?",a:["The depth at which air gives the same PN₂ as your nitrox at the actual depth","The deepest depth for your mix","The depth where PO₂ reaches 1.4 bar","Your safety stop depth"],why:"EAD converts a nitrox dive into an equivalent air dive, so you can use air tables."},
+{q:"What is the EAD of EAN32 at 30 m, ready for an air table?",a:["25 m (24.4 rounded up)","24 m","30 m","20 m"],why:"(0.68 ÷ 0.79 × 4.0 − 1) × 10 = 24.4 m. Round up to enter the table."},
+{q:"How should you round EAD before entering an air table?",a:["Up, to the next deeper depth","Down, to the next shallower depth","Subtract 3 m","Use the MOD instead"],why:"Rounding up assumes more nitrogen, which is the conservative direction."},
+{q:"Your analyser reads 32.8%. What do you enter into your computer under RAID rules?",a:["32%","33%","32.8% rounded to 35%","21%"],why:"Never round the analysed value up, because that understates nitrogen loading."},
+{q:"What PO₂ alarm should you set for recreational nitrox?",a:["1.4 bar","1.6 bar","1.0 bar","2.0 bar"],why:"1.4 bar is the working limit. 1.6 bar is not a planning value."},
+{q:"With nitrox no-stop limits, what usually ends a recreational dive?",a:["Gas supply","The no-stop limit","CNS%","OTUs"],why:"Longer no-stop limits mean you hit your turn pressure first. Monitor your gauge."},
+{q:"Your nitrox computer resets to 21% before dive 2 on EAN32. What is the main hidden risk?",a:["It won't track your oxygen exposure or warn you at the EAN32 MOD","It gives you dangerously long no-stop limits","It locks out at the surface","It underestimates your nitrogen"],why:"The nitrogen side becomes conservative, but the oxygen side is no longer tracked at all."},
+{q:"You switch from EAN32 on dive 1 to EAN36 on dive 2. What must you do?",a:["Recalculate MOD for the new mix and update the computer. Residual nitrogen carries over.","Nothing. Nitrogen from dive 1 is cleared by the new mix.","Use the EAN32 MOD again","Wait 24 hours"],why:"Each mix has its own MOD, and your tissues still carry nitrogen from dive 1."}
+]},
+
+{id:"m6",title:"Equipment, oxygen service and blending",short:"Equipment and blending",mins:12,
+summary:"The 40% rule, oxygen-clean cylinders, compatible materials, how nitrox is mixed, and cylinder marking.",
+reading:
+"<h3>The 40% rule</h3>"+
+"<p>By long-standing practice, <b>standard scuba equipment can be used with nitrox up to 40% "+O2+"</b>. The 2000 DAN workshop found no evidence of an unreasonable fire or ignition risk with up to 40% nitrox in standard equipment, but said that <b>the manufacturer's recommendations take priority</b>. Some manufacturers set a lower limit, and some European norms require oxygen service above 22%.</p>"+
+"<div class='tbl'><table><tr><th>"+O2+" content</th><th>Equipment rule</th></tr>"+
+"<tr><td class='mono'>22&ndash;40%</td><td>Standard equipment, following the manufacturer's rules. The <b>cylinder</b> must be oxygen-clean if it's filled by partial-pressure blending.</td></tr>"+
+"<tr><td class='mono'>over 40%</td><td>All of it in <b>oxygen service</b>: cylinder, valve, regulator, O-rings and lubricants. This is Advanced Nitrox territory.</td></tr></table></div>"+
+"<h3>Why oxygen is a fire risk</h3>"+
+"<p>Oxygen doesn't burn, but it makes <b>everything it touches</b> ignite more easily and burn hotter and faster. A fire needs three things:</p>"+
+"<ul><li><b>Fuel:</b> oil, grease, dust, hydrocarbons, or unsuitable O-rings and seats.</li><li><b>Oxygen:</b> a high <i>percentage</i>, such as pure "+O2+" during blending.</li><li><b>Heat:</b> gas compressed quickly when a valve is <b>opened fast</b> (adiabatic heating). <b>Always open valves slowly.</b></li></ul>"+
+"<h3>Oxygen service</h3>"+
+"<ul><li>The cylinder is <b>specially cleaned</b> (commonly once a year) and marked as oxygen-clean.</li>"+
+"<li><b>O-rings:</b> Viton or EPDM, not Buna-N or neoprene.</li>"+
+"<li><b>Lubricants:</b> oxygen-compatible fluorinated greases only. <b>Never silicone or petroleum grease.</b></li>"+
+"<li>Fill only with <b>oil-free, oxygen-compatible air</b>. Never top up an oxygen-clean cylinder from an ordinary air compressor.</li></ul>"+
+"<h3>How nitrox is made</h3>"+
+"<div class='tbl'><table><tr><th>Method</th><th>How it works</th><th>Does the cylinder see pure "+O2+"?</th></tr>"+
+"<tr><td><b>Partial-pressure blending</b></td><td>Pure "+O2+" goes into the cylinder first, then oxygen-compatible air on top</td><td><b>Yes</b>, so the cylinder must be oxygen-clean</td></tr>"+
+"<tr><td><b>Continuous blending</b> (&ldquo;nitrox stick&rdquo;)</td><td>"+O2+" is mixed into the air at the compressor intake</td><td>No, it never sees more than about 40%</td></tr>"+
+"<tr><td><b>Membrane separation</b></td><td>A membrane strips out nitrogen before compression</td><td>No</td></tr>"+
+"<tr><td><b>Premix or bank</b></td><td>Banks hold ready-made EAN32 or EAN36</td><td>No</td></tr></table></div>"+
+"<h3>Identifying a nitrox cylinder</h3>"+
+"<ul><li>A <b>green and yellow band</b> or a &ldquo;Enriched Air Nitrox&rdquo; decal near the shoulder.</li><li>A <b>contents label or tag</b> (Module 7).</li><li>Current inspection or test date, plus an oxygen-clean sticker if required. Follow local rules: marking requirements differ between countries and shops.</li></ul>"+
+"<p class='src'>Sources: DAN Nitrox Workshop Proceedings (2000) consensus, TDI Diver Standards §6.10 (equipment and mixing), RAID Nitrox manual (materials), Scuba Diving magazine guide.</p>",
+quiz:[
+{q:"Under long-standing practice, standard scuba equipment can be used up to what O₂ content (subject to the manufacturer's rules)?",a:["40%","21%","50%","100%"],why:"This is the 40% rule. The DAN workshop found no evidence of unreasonable fire risk with up to 40% nitrox, but deferred to manufacturers."},
+{q:"Why must a cylinder filled by partial-pressure blending be oxygen-clean?",a:["Pure oxygen goes into it during filling, which can ignite contaminants","Seawater rusts nitrox tanks faster","Standard tanks can't hold 200 bar","It increases the no-stop limit"],why:"Even if the final mix is 40% or less, the cylinder holds 100% O₂ during blending."},
+{q:"Which O-ring material suits oxygen-enriched service?",a:["Viton","Buna-N","Standard neoprene","Any rubber"],why:"Viton (or EPDM) is oxygen-compatible. Buna-N and neoprene are not."},
+{q:"Which lubricant is acceptable in oxygen-clean equipment?",a:["An oxygen-compatible fluorinated grease","Silicone grease","Petroleum jelly","Any lubricant is fine"],why:"Silicone and petroleum greases are fuels in a high-oxygen environment."},
+{q:"Why do you open a nitrox cylinder valve slowly?",a:["Rapid compression heats the gas, supplying the heat for a fire","To save gas","To calibrate the analyser","So the computer can detect the mix"],why:"Adiabatic heating supplies the heat in the fire triangle."},
+{q:"Which blending method never exposes the cylinder to more than about 40% O₂?",a:["Continuous blending or membrane separation","Partial-pressure blending","Adding pure O₂ first","Topping up with 100% O₂"],why:"Both mix or separate the gas before compression, so the cylinder only ever sees the final mix."},
+{q:"What does equipment for mixes over 40% O₂ need?",a:["Everything in oxygen service: cylinder, valve, regulator, O-rings and lubricants","Only a new O-ring","Nothing special","Only a green band"],why:"Above 40% there's no exemption. That's Advanced Nitrox or decompression training."},
+{q:"How is a nitrox cylinder normally identified?",a:["A green and yellow band or nitrox decal, plus a contents label","A red cylinder","A blue valve knob","A special DIN thread on every cylinder"],why:"The band or decal identifies it as nitrox. The contents label gives the analysed mix, MOD, date and name."}
+]},
+
+{id:"m7",title:"Gas analysis, labelling and the fill log",short:"Analysis and labelling",mins:10,
+summary:"The practical skill every agency signs off: analyse it yourself, label it, sign the log.",
+reading:
+"<div class='callout danger'><b>The rule</b><b>Analyse every cylinder yourself before you breathe from it.</b> Don't rely on the tag, the fill sheet or someone telling you it's been checked. The DAN workshop consensus: the blender or dispenser analyses, and <b>the end user verifies</b>.</div>"+
+"<h3>The oxygen analyser</h3>"+
+"<p>Most analysers use a <b>galvanic fuel cell</b>, an electrochemical sensor that slowly wears out. Low batteries or an old cell cause slow, drifting or wrong readings.</p>"+
+"<h3>Step by step (what you'll demonstrate)</h3>"+
+"<ol class='steps'>"+
+"<li><div><b>Check the cylinder:</b> nitrox band or decal, inspection dates, and any contents tag.</div></li>"+
+"<li><div><b>Calibrate in air</b> to <b>20.9%</b> (or 21%), away from your breath and the wind.</div></li>"+
+"<li><div><b>Flow gas gently</b> using a <b>controlled-flow device</b> or flow restrictor, or crack the valve very slightly. Blasting gas gives a false reading and can damage the sensor.</div></li>"+
+"<li><div><b>Wait for a steady reading</b> (about 10 to 20 seconds).</div></li>"+
+"<li><div><b>Check the tolerance:</b> within <b>&plusmn;1%</b> of what you planned (for EAN32, 31 to 33%). If it's outside that, recalculate your plan for the actual mix or don't use the cylinder.</div></li>"+
+"<li><div><b>Calculate the MOD</b> from the analysed value.</div></li>"+
+"<li><div><b>Label the cylinder</b> and <b>sign the fill log</b>.</div></li>"+
+"<li><div><b>Set your computer</b> to the analysed "+O2+" percentage.</div></li></ol>"+
+"<h3>Contents label</h3>"+
+"<div class='ctag' style='max-width:320px;margin:12px 0'><div class='h'>Enriched air &middot; contents</div><dl><dt>O₂ (analysed)</dt><dd>32.4%</dd><dt>MOD at 1.4 bar</dt><dd>33 m</dd><dt>Date</dt><dd>25 Nov 2026</dd><dt>Analysed by</dt><dd>J. Diver (signature)</dd></dl></div>"+
+"<ul><li>Use a <b>permanent marker</b>, not a grease pencil, which smudges (RAID).</li><li>Write the MOD large enough that your buddy can read it underwater.</li></ul>"+
+"<h3>The fill log</h3>"+
+"<p>The shop's nitrox log usually records the date, cylinder number, fill pressure, analysed "+O2+"%, MOD, your certification and your signature. <b>Signing it means you analysed the gas yourself and accept the mix and its MOD.</b> TDI requires each student to log at least one cylinder analysis, including the MOD and oxygen content.</p>"+
+"<p class='src'>Sources: TDI Diver Standards §6.11, DAN Nitrox Workshop Proceedings (2000) consensus, RAID Nitrox manual, SSI class transcript.</p>",
+quiz:[
+{q:"Who is responsible for verifying the mix in a nitrox cylinder before a dive?",a:["You, the diver who will breathe from it","Only the gas blender","Your buddy","The boat's divemaster"],why:"DAN consensus: the blender analyses and the end user verifies. Every agency's practical tests this."},
+{q:"What do you calibrate an oxygen analyser against before analysing nitrox?",a:["Air at 20.9%","Pure nitrogen","EAN32","Your exhaled breath"],why:"Ambient air is the reference. Breath contains less O₂ and would throw off the calibration."},
+{q:"What happens if you blast gas from the valve straight onto the sensor?",a:["You get a false reading and can damage the sensor","It calibrates faster","Nothing","The oxygen separates from the nitrogen"],why:"Use a controlled flow. DAN recommends a controlled-flow sampling device."},
+{q:"What tolerance on the analysed mix do most agencies accept?",a:["±1%","±5%","±0.1%","±10%"],why:"For example, EAN32 should read between 31% and 33%."},
+{q:"What goes on the cylinder contents label?",a:["Analysed O₂%, MOD, date, and your name or signature","Shop name and tank colour","Your weight and certification number","Only the requested mix"],why:"Use the analysed value, not the value ordered or the old tag."},
+{q:"What should you write the label with?",a:["A permanent marker","A grease pencil","A pencil","Nothing, a verbal check is enough"],why:"RAID specifically says not to use a grease pencil, because it smudges."},
+{q:"You ordered EAN32 but analyse 34%. What do you do?",a:["Plan around the analysed 34%: recalculate the MOD (31 m), relabel, and set your computer to 34%","Dive it as EAN32","Set your computer to 32% and ignore it","Average the two and use 33%"],why:"The analysed value is the only one that matters. If 34% doesn't suit your planned depth, don't use the cylinder."},
+{q:"What does signing the shop's nitrox fill log mean?",a:["You analysed the gas yourself and accept the mix and its MOD","Only that you paid","That the shop takes all responsibility","Nothing, it's optional"],why:"Logging an analysis with the MOD and O₂ content is a TDI graduation requirement."}
+]},
+
+{id:"m8",title:"Emergencies and first aid",short:"Emergencies",mins:10,
+summary:"Oxygen toxicity at depth, a convulsing diver, DCS after a nitrox dive, and RAID's rules.",
+reading:
+"<h3>Signs of oxygen toxicity at depth</h3>"+
+"<ol><li><b>Signal your buddy</b> and <b>start a controlled ascent</b> straight away. Going shallower lowers your "+PO2+" immediately.</li><li>End the dive. Do your safety stop only if you're clear of symptoms and it's safe.</li><li>Report it, and log the depth, time and mix.</li></ol>"+
+"<h3>A diver convulsing underwater</h3>"+
+"<p>Agencies follow US Navy guidance, which DAN defers to: treat the diver like an unconscious diver.</p>"+
+"<ul><li>If the regulator is still in their mouth, <b>hold it in place</b>. <b>If it's out, don't try to force it back in.</b></li>"+
+"<li>Bring them to the surface, set up plenty of <b>positive buoyancy</b> for both of you, and check their breathing.</li>"+
+"<li>Call for help, give rescue breaths if needed, get them out of the water, then CPR if required and <b>emergency oxygen</b>.</li>"+
+"<li>See a doctor even if they appear to recover fully.</li></ul>"+
+"<div class='callout'><b>Experts disagree here</b>Some experts say to hold the regulator in and <b>wait until the convulsion stops before ascending</b>, because a convulsing diver may hold their breath. Others ascend immediately to prevent drowning. Learn your own agency's answer for the exam.</div>"+
+"<h3>DCS after a nitrox dive</h3>"+
+"<ul><li>Treat it <b>exactly as you would after an air dive</b>: <b>100% oxygen</b>, first aid, emergency services (<b>000 in Australia</b>) and your diving emergency hotline (DAN or DES).</li>"+
+"<li>Tell the medical team the depth, time, <b>that you were breathing nitrox, and the mix</b>.</li>"+
+"<li>Why 100% "+O2+"? It contains no nitrogen, so it gives the largest gradient for off-gassing and oxygenates tissue.</li>"+
+"<li>If the emergency oxygen runs out, have a breathing patient breathe <b>any enriched air available</b>, which is better than air.</li>"+
+"<li>Never put a diver back in the water to recompress them.</li></ul>"+
+"<h3>RAID's rules (often tested)</h3>"+
+"<ul><li><b>Over 1.6 bar:</b> treat the dive as 100% CNS and stay dry for 24 hours.</li>"+
+"<li><b>Computer fails mid-dive:</b> ascend at 9 m/min, stop 2 min at 10 m (if you were deeper), 10 min at 5 m if your gas allows, then stay out of the water for 24 hours.</li>"+
+"<li><b>BRAID buddy check:</b> Buoyancy and weights, Regulators and releases, Air (gas) checks, Instruments, Diver OK to dive.</li>"+
+"<li><b>Flying:</b> wait 12 to 24 hours (follow your computer). <b>Freediving:</b> wait 24 hours after scuba.</li></ul>"+
+"<div class='callout key'><b>Know the difference</b>Blue lips or skin (cyanosis) points to hypoxia or cold, not typical DCS. Weakness, tingling, numbness and extreme fatigue are DCS signs.</div>"+
+"<p class='src'>Sources: DAN Nitrox Workshop Proceedings (2000), PADI paper (emergencies, from US Navy procedure), RAID Nitrox manual, SSI class transcript.</p>",
+quiz:[
+{q:"At 30 m on nitrox you notice lip twitching and tunnel vision. What do you do first?",a:["Signal your buddy and start a controlled ascent","Stay at depth and breathe faster","Go down 3 m","Switch your computer to air mode"],why:"Going shallower immediately lowers your PO₂."},
+{q:"A diver convulses with the regulator out of their mouth. What should you do with the regulator?",a:["Don't force it back in. Get them to the surface with positive buoyancy.","Pry the jaw open and force it in","Leave them at depth until the tank is empty","Take off their BCD first"],why:"Hold it in if it's still there, but don't try to replace it during a convulsion."},
+{q:"A diver shows DCS symptoms after a nitrox dive. How do you manage it?",a:["Exactly as after an air dive: 100% O₂, emergency help, and tell them the mix","Give nothing, nitrox divers can't get DCS","Put them back in the water to recompress","Give them air instead of oxygen"],why:"Nitrox doesn't change DCS first aid. Tell the medical team the mix."},
+{q:"Why give 100% oxygen to a diver with suspected DCS?",a:["It has no nitrogen, so it gives the largest gradient for off-gassing","It's colder","It reduces narcosis","It makes the bubbles bigger"],why:"Zero inspired nitrogen speeds nitrogen elimination and also oxygenates tissue."},
+{q:"You run out of emergency oxygen with a breathing DCS patient before reaching care. What does DAN guidance suggest?",a:["Have them breathe any enriched air available","Stop all treatment","Give them air from a compressor","Put them back in the water"],why:"Enriched air still delivers more oxygen than air."},
+{q:"Under RAID rules, what must you do if you exceed a PO₂ of 1.6 bar?",a:["Treat it as 100% CNS and don't dive for 24 hours","Dive again after 1 hour","Nothing, if you feel fine","Skip only the safety stop"],why:"This is a mandatory RAID post-dive rule."},
+{q:"Which sign points to hypoxia or cold rather than typical DCS?",a:["Bluish lips or skin (cyanosis)","Tingling in the arms","Extreme fatigue","Weakness"],why:"Cyanosis means too little oxygen in the blood. The others are DCS signs."},
+{q:"In RAID's BRAID buddy check, what does the A stand for?",a:["Air (gas) checks","Ascent rate","Alternate air source colour","Altitude"],why:"BRAID: Buoyancy, Regulators and releases, Air, Instruments, Diver OK."}
+]},
+
+{id:"m9",title:"Agencies, standards and exam day",short:"Agencies and exam day",mins:10,
+summary:"What each agency requires, the TDI standard in detail, and how to pass the practical.",
+reading:
+"<h3>What every agency has in common</h3>"+
+"<p>The theory is the same everywhere (ISO 11107 covers recreational nitrox up to 40%). Every entry-level nitrox course ends with the same requirements:</p>"+
+"<ol><li>Pass a <b>written exam</b> on physics, oxygen limits, MOD, best mix, EAD, equipment and procedures.</li><li><b>Analyse</b> a nitrox cylinder in front of an instructor.</li><li><b>Label</b> it and <b>sign the fill log</b> with the analysed "+O2+"% and MOD.</li><li>Set a nitrox <b>computer</b>, or plan with tables.</li></ol>"+
+"<p>Open-water dives are <b>optional at most agencies</b>, which is why a classroom-only (&ldquo;dry&rdquo;) certification is the cheapest route.</p>"+
+"<h3>TDI Nitrox Diver standard</h3>"+
+"<div class='tbl'><table><tr><th>Item</th><th>Requirement</th></tr>"+
+"<tr><td>Mixes</td><td>Single gas, EAN22 to EAN40, no decompression. Not for multiple gases or rebreathers.</td></tr>"+
+"<tr><td>Minimum age</td><td>18, or 15 with parental consent</td></tr>"+
+"<tr><td>Prerequisite</td><td>Open Water certification, or currently enrolled in an Open Water course</td></tr>"+
+"<tr><td>Duration</td><td>About 3 classroom hours</td></tr>"+
+"<tr><td>Dives</td><td>2 recommended, <b>none required</b></td></tr>"+
+"<tr><td>Dive plan</td><td>A written plan to a MOD calculated with a "+PO2+" between <b>1.3 and 1.6</b> to suit the conditions</td></tr>"+
+"<tr><td>Skills</td><td>Plan with EAD tables, use an analyser, manage and label cylinders, give a pre-dive briefing, program a computer, log at least 1 analysis</td></tr>"+
+"<tr><td>To pass</td><td>Written exam, and show you understand oxygen analysis</td></tr>"+
+"<tr><td>Next course</td><td>Advanced Nitrox (EAN21 to 100% O₂, to 40 m, needs 25 logged dives and 4 dives with 100 min bottom time), Decompression Procedures</td></tr></table></div>"+
+"<h3>Other agencies</h3>"+
+"<div class='tbl'><table><tr><th>Agency</th><th>Course</th><th>Notes</th></tr>"+
+"<tr><td><b>PADI</b></td><td>Enriched Air Diver</td><td>eLearning, then 1 to 2 days in person (analysing, setting a computer, the enriched air log). Dives optional. MOD at 1.4 bar, contingency depth at 1.6 bar.</td></tr>"+
+"<tr><td><b>SSI</b></td><td>Enriched Air Nitrox</td><td>Taught in levels: Level 1 for 32%, then richer mixes up to 40% (from the SSI class transcript). Same limits and practical.</td></tr>"+
+"<tr><td><b>RAID</b></td><td>Nitrox Diver</td><td>Free online theory, <b>TOD (1.4) and MOD (1.6)</b> terms, depth capped by your base certification, dives optional.</td></tr>"+
+"<tr><td><b>SDI / TDI</b></td><td>Nitrox Diver</td><td>The TDI standard above. SDI is TDI's sister recreational agency.</td></tr>"+
+"<tr><td><b>NAUI</b></td><td>Nitrox Diver</td><td>Mixes up to EAN40, with academic sessions, practical work and optional open-water dives.</td></tr>"+
+"<tr><td><b>BSAC</b></td><td>Nitrox (club or centre)</td><td>Taught at branches. Check the current mix and depth limits with your branch.</td></tr></table></div>"+
+"<div class='callout'><b>Check before you book</b>Prices, minimum ages and exam pass marks change, and some details here come from secondary sources. Confirm them with the shop. The repo's <span class='mono'>cheapest-path-sydney.md</span> compares Sydney prices.</div>"+
+"<h3>Exam-day checklist</h3>"+
+"<ul><li>Know the four formulas by heart: P<sub>abs</sub>, "+PO2+", MOD, best mix (and EAD for table agencies).</li>"+
+"<li>Rounding: <b>MOD down, best mix down, EAD up</b>.</li>"+
+"<li>Have these numbers ready: EAN32 = <b>33 m</b>, EAN36 = <b>28 m</b>, EAN40 = <b>25 m</b> (at 1.4 bar).</li>"+
+"<li>Know your agency's terms (MOD vs TOD) and its convulsion procedure.</li>"+
+"<li>Practical: calibrate in air, use a gentle flow, check &plusmn;1%, label with "+O2+"%, MOD, date and name, sign the log, set the computer.</li>"+
+"<li>Bring your certification card or number and a permanent marker.</li></ul>"+
+"<p class='src'>Sources: TDI Standards Part 2 §6 and §7 (v0126), RAID Nitrox manuals, DAN Nitrox Workshop Proceedings (2000), Scuba Diving magazine guide, Scribd listing for the NAUI Nitrox overview, SSI class transcript.</p>",
+quiz:[
+{q:"How many open-water dives does the TDI Nitrox Diver standard require?",a:["None (2 are recommended)","2","4","6"],why:"TDI describes entry-level nitrox as mainly an academic course with no skills to assess in the water."},
+{q:"What is the minimum age for TDI Nitrox Diver?",a:["18, or 15 with parental consent","10","12 with no consent needed","21"],why:"TDI Diver Standards §6.5."},
+{q:"What PO₂ range does TDI allow for the student's written dive plan?",a:["1.3 to 1.6 bar, depending on conditions","Only 1.0 bar","2.0 bar","1.6 to 2.0 bar"],why:"You choose a more conservative PO₂ for colder, harder or longer dives."},
+{q:"What can a TDI Nitrox Diver do without supervision?",a:["Dive a single gas of EAN22 to EAN40 with no decompression","Plan dives with decompression stops","Use 100% O₂ for decompression","Dive rebreathers"],why:"Multiple gases, decompression and rebreathers need further training."},
+{q:"Which TDI course covers mixes from 21% up to 100% O₂ to 40 m?",a:["Advanced Nitrox","Nitrox Diver","Open Water","Rescue Diver"],why:"It requires Nitrox Diver, 25 logged dives, and 4 dives with at least 100 min total bottom time."},
+{q:"What is common to every agency's entry-level nitrox certification?",a:["A written exam plus analysing, labelling and logging a cylinder","Four deep open-water dives","A rebreather check-out","A swim test"],why:"That's why a dry, classroom-only certification is possible at most agencies."},
+{q:"What did the DAN workshop conclude about tracking OTUs for recreational nitrox divers?",a:["It isn't necessary, though the concept should be explained","It's mandatory on every dive","It replaces the CNS clock","OTUs only apply to air"],why:"DAN consensus: no need to track whole-body (OTU/UPTD) exposure for recreational diving. Teach the CNS clock instead."},
+{q:"What are the rounding rules to remember on exam day?",a:["MOD down, best mix down, EAD up","All values round up","All values round down","MOD up, best mix up, EAD down"],why:"Each one rounds in the conservative direction for the risk it controls."}
+]}
+];
+
+var api = { MODULES: MODULES };
+root.NitroxContent = api;
+if (typeof module === "object" && module && module.exports) module.exports = api;
+})(typeof globalThis !== "undefined" ? globalThis : this);
