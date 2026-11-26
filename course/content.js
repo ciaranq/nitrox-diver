@@ -48,30 +48,94 @@ quiz:[
 {q:"What did the 2000 DAN Nitrox Workshop conclude about DCS risk?",a:["No evidence showed an increased DCS risk on nitrox compared with air","Nitrox doubles DCS risk","Nitrox removes DCS risk","Only technical divers should use nitrox"],why:"That was the workshop's first consensus recommendation for recreational open-circuit nitrox."}
 ]},
 
-{id:"m2",title:"Gas physics: pressure, Dalton and Henry",short:"Gas physics",mins:12,
-summary:"Absolute pressure in metres, partial pressures and the T formula.",
+{id:"m2",title:"Gas physics: pressure, Dalton and Henry",short:"Gas physics",mins:22,
+summary:"Absolute pressure, Boyle in brief, partial pressures, a step-by-step method, the T formula and how nitrogen gets into your tissues.",
 reading:
-"<h3>Pressure in metres</h3>"+
-"<p>At the surface you are at <b>1 bar</b>. Each <b>10 m of seawater adds 1 bar</b>. Fresh water is slightly less dense (about 10.3 m per bar), but metric exams use 10 m.</p>"+
-"<div class='formula'>P<sub>abs</sub> (bar) = depth (m) &divide; 10 + 1</div>"+
+"<p>Every number in nitrox diving comes from <b>three ideas</b>: how pressure grows with depth, how that pressure is split between the gases you breathe, and how those gases soak into your body. Get these three right and MOD, best mix and EAD (modules 4 and 5) are just the same sum rearranged.</p>"+
+"<h3>1. Pressure is the weight above you</h3>"+
+"<p>Pressure is the weight of everything stacked on top of you. At sea level that's the whole atmosphere, which presses with about <b>1 bar</b> (1.013 bar, rounded to 1 for diving). Water is far heavier than air, so only <b>10 m of seawater</b> weighs as much as the entire atmosphere above it. Every 10 m you descend adds another 1 bar.</p>"+
+"<div class='tbl'><table><tr><th>Name</th><th>What it counts</th><th class='num'>At 20 m</th></tr>"+
+"<tr><td>Water (gauge) pressure</td><td>Only the water above you</td><td class='num'>2.0 bar</td></tr>"+
+"<tr><td><b>Absolute (ambient) pressure</b></td><td>The water <b>plus</b> the atmosphere on top of it</td><td class='num'><b>3.0 bar</b></td></tr></table></div>"+
+"<div class='callout key'><b>Always use absolute pressure</b>Your lungs feel the water <i>and</i> the air above it, so every nitrox calculation uses absolute pressure. That is all the &ldquo;+1&rdquo; in the formula is: the atmosphere.</div>"+
+"<div class='formula'>P<sub>abs</sub> (bar) = depth (m) &divide; 10 + 1<small>Going back the other way: depth (m) = (P<sub>abs</sub> &minus; 1) &times; 10. Fresh water is slightly less dense (about 10.3 m per bar), but metric exams use 10 m.</small></div>"+
 "<div class='tbl'><table><tr><th class='num'>Depth</th><th class='num'>0 m</th><th class='num'>10 m</th><th class='num'>18 m</th><th class='num'>20 m</th><th class='num'>25 m</th><th class='num'>30 m</th><th class='num'>40 m</th></tr>"+
-"<tr><td>P<sub>abs</sub></td><td class='num'>1.0</td><td class='num'>2.0</td><td class='num'>2.8</td><td class='num'>3.0</td><td class='num'>3.5</td><td class='num'>4.0</td><td class='num'>5.0</td></tr></table></div>"+
-"<h3>Dalton's law: partial pressures</h3>"+
-"<p>The total pressure of a gas mixture is the sum of the partial pressures of its gases. Each gas's partial pressure is its <b>fraction</b> times the <b>absolute pressure</b>.</p>"+
+"<tr><td>P<sub>abs</sub> (bar)</td><td class='num'>1.0</td><td class='num'>2.0</td><td class='num'>2.8</td><td class='num'>3.0</td><td class='num'>3.5</td><td class='num'>4.0</td><td class='num'>5.0</td></tr>"+
+"<tr><td>&times; surface</td><td class='num'>1&times;</td><td class='num'>2&times;</td><td class='num'>2.8&times;</td><td class='num'>3&times;</td><td class='num'>3.5&times;</td><td class='num'>4&times;</td><td class='num'>5&times;</td></tr></table></div>"+
+"<h3>2. Boyle's law: what pressure does to gas (a quick review)</h3>"+
+"<p>You met this in your Open Water course. At a constant temperature, <b>pressure &times; volume stays the same</b>. Double the pressure and a gas squeezes to half its volume. Halve the pressure and it doubles.</p>"+
+"<div class='formula'>P<sub>1</sub> &times; V<sub>1</sub> = P<sub>2</sub> &times; V<sub>2</sub></div>"+
+"<div class='tbl'><table><tr><th class='num'>Depth</th><th class='num'>P<sub>abs</sub></th><th class='num'>A 6 L balloon becomes</th><th class='num'>Gas used per breath vs surface</th></tr>"+
+"<tr><td class='num'>0 m</td><td class='num'>1.0</td><td class='num'>6 L</td><td class='num'>1&times;</td></tr>"+
+"<tr><td class='num'>10 m</td><td class='num'>2.0</td><td class='num'>3 L</td><td class='num'>2&times;</td></tr>"+
+"<tr><td class='num'>20 m</td><td class='num'>3.0</td><td class='num'>2 L</td><td class='num'>3&times;</td></tr>"+
+"<tr><td class='num'>30 m</td><td class='num'>4.0</td><td class='num'>1.5 L</td><td class='num'>4&times;</td></tr></table></div>"+
+"<ul><li><b>The biggest change is shallow.</b> From 0 to 10 m the pressure doubles. From 30 to 40 m it rises by only a quarter. That's why the last few metres of an ascent need the most care.</li>"+
+"<li><b>You use gas faster at depth</b>, whatever is in the tank. At 30 m each breath takes four times as much gas from the cylinder as at the surface. Nitrox doesn't change this.</li>"+
+"<li><b>The bridge to Dalton:</b> at 30 m each lungful holds four times as many molecules of <i>every</i> gas in the mix, oxygen and nitrogen alike. That is what &ldquo;partial pressure&rdquo; measures.</li></ul>"+
+"<h3>3. Dalton's law: every gas does its share</h3>"+
+"<p>Think of the gas mix as a team pushing on a door. The total push is the absolute pressure. Each gas pushes in proportion to its share of the team. Oxygen is 21% of air, so it supplies 21% of the push, whatever the total is.</p>"+
 "<div class='formula'>"+PO2+" = "+FO2+" &times; P<sub>abs</sub> &nbsp;&nbsp;&nbsp; "+PN2+" = "+FN2+" &times; P<sub>abs</sub><small>Write fractions as decimals: 32% = 0.32, and "+FN2+" = 1 &minus; "+FO2+".</small></div>"+
+"<p>The <b>fraction</b> is fixed when the cylinder is filled. Only the <b>pressure</b> changes as you descend, so every partial pressure rises in step with depth:</p>"+
+"<div class='tbl'><table><tr><th>Gas and depth</th><th class='num'>P<sub>abs</sub></th><th class='num'>"+PO2+"</th><th class='num'>"+PN2+"</th><th class='num'>Sum</th></tr>"+
+"<tr><td>Air at 0 m</td><td class='num'>1.0</td><td class='num'>0.21</td><td class='num'>0.79</td><td class='num'>1.0</td></tr>"+
+"<tr><td>Air at 10 m</td><td class='num'>2.0</td><td class='num'>0.42</td><td class='num'>1.58</td><td class='num'>2.0</td></tr>"+
+"<tr><td>Air at 30 m</td><td class='num'>4.0</td><td class='num'>0.84</td><td class='num'>3.16</td><td class='num'>4.0</td></tr>"+
+"<tr><td>EAN32 at 0 m</td><td class='num'>1.0</td><td class='num'>0.32</td><td class='num'>0.68</td><td class='num'>1.0</td></tr>"+
+"<tr><td>EAN32 at 10 m</td><td class='num'>2.0</td><td class='num'>0.64</td><td class='num'>1.36</td><td class='num'>2.0</td></tr>"+
+"<tr><td>EAN32 at 30 m</td><td class='num'>4.0</td><td class='num'>1.28</td><td class='num'>2.72</td><td class='num'>4.0</td></tr>"+
+"<tr><td>EAN36 at 25 m</td><td class='num'>3.5</td><td class='num'>1.26</td><td class='num'>2.24</td><td class='num'>3.5</td></tr>"+
+"<tr><td>EAN40 at 25 m</td><td class='num'>3.5</td><td class='num'>1.40</td><td class='num'>2.10</td><td class='num'>3.5</td></tr></table></div>"+
 "<div class='callout'><b>Common exam trap</b>The <i>percentage</i> in your tank never changes with depth. Air at 10 m is still 21% "+O2+". What doubles is the partial pressure, which goes from 0.21 to <b>0.42 bar</b>.</div>"+
-"<h3>The T formula</h3>"+
-"<p>RAID calls it the <b>T formula</b>. Others draw it as a triangle. Cover the value you want:</p>"+
-"<div class='formula'>P<sub>g</sub> = F<sub>g</sub> &times; P &nbsp;&nbsp;|&nbsp;&nbsp; F<sub>g</sub> = P<sub>g</sub> &divide; P &nbsp;&nbsp;|&nbsp;&nbsp; P = P<sub>g</sub> &divide; F<sub>g</sub><small>P<sub>g</sub> is the partial pressure, F<sub>g</sub> the gas fraction and P the absolute pressure in bar. The first gives "+PO2+", the second gives best mix, and the third gives the maximum pressure. Then (P &minus; 1) &times; 10 gives the depth in metres.</small></div>"+
-"<h3>Henry's law: why nitrogen loads</h3>"+
-"<p>The amount of gas that dissolves into a liquid (your blood and tissues) is proportional to that gas's <b>partial pressure</b>. Deeper and longer means more nitrogen dissolved. Lowering "+FN2+" lowers "+PN2+", which is the whole point of nitrox. Exertion and cold also increase uptake.</p>"+
-"<h3>Worked examples</h3>"+
-"<div class='tbl'><table><tr><th>Gas and depth</th><th class='num'>P<sub>abs</sub></th><th class='num'>"+PO2+"</th><th class='num'>"+PN2+"</th></tr>"+
-"<tr><td>Air at 30 m</td><td class='num'>4.0</td><td class='num'>0.84</td><td class='num'>3.16</td></tr>"+
-"<tr><td>EAN32 at 30 m</td><td class='num'>4.0</td><td class='num'>1.28</td><td class='num'>2.72</td></tr>"+
-"<tr><td>EAN36 at 25 m</td><td class='num'>3.5</td><td class='num'>1.26</td><td class='num'>2.24</td></tr>"+
-"<tr><td>EAN40 at 25 m</td><td class='num'>3.5</td><td class='num'>1.40</td><td class='num'>2.10</td></tr></table></div>"+
-"<p class='src'>Sources: TDI Diver Standards §6.10 (physics), RAID Nitrox manual (T formula), SSI class transcript.</p>",
+"<div class='callout key'><b>Built-in self-check</b>The partial pressures always add up to the absolute pressure ("+PO2+" + "+PN2+" = P<sub>abs</sub>). If yours don't, you've made a mistake.</div>"+
+"<h3>4. A method for any partial pressure question</h3>"+
+"<ol><li><b>Depth to pressure.</b> P<sub>abs</sub> = depth &divide; 10 + 1.</li>"+
+"<li><b>Percentage to fraction.</b> Move the decimal point two places: 34% becomes 0.34. For nitrogen, use 1 &minus; "+FO2+".</li>"+
+"<li><b>Multiply</b> (or divide, using the T formula below).</li>"+
+"<li><b>Sanity check.</b> Do the partial pressures add up to P<sub>abs</sub>? Is the "+PO2+" above 1.4? If it is, that depth is too deep for the mix.</li></ol>"+
+"<div class='tbl'><table><tr><th>Step</th><th>Worked example: EAN34 at 20 m</th></tr>"+
+"<tr><td>1. Pressure</td><td class='mono'>P<sub>abs</sub> = 20 &divide; 10 + 1 = 3.0 bar</td></tr>"+
+"<tr><td>2. Fractions</td><td class='mono'>"+FO2+" = 0.34, "+FN2+" = 1 &minus; 0.34 = 0.66</td></tr>"+
+"<tr><td>3. Multiply</td><td class='mono'>"+PO2+" = 0.34 &times; 3.0 = <b>1.02 bar</b><br>"+PN2+" = 0.66 &times; 3.0 = <b>1.98 bar</b></td></tr>"+
+"<tr><td>4. Check</td><td class='mono'>1.02 + 1.98 = 3.0 &#10003; &nbsp; 1.02 &lt; 1.4 &#10003;</td></tr></table></div>"+
+"<h3>5. The T formula: one equation, three questions</h3>"+
+"<p>RAID calls it the <b>T formula</b>. Others draw it as a triangle. The partial pressure (P<sub>g</sub>) sits on top, with the fraction (F<sub>g</sub>) and the absolute pressure (P) underneath. Cover the value you want. If the two you can still see sit side by side, multiply them. If one is above the other, divide the top by the bottom.</p>"+
+"<div class='formula'>P<sub>g</sub> = F<sub>g</sub> &times; P &nbsp;&nbsp;|&nbsp;&nbsp; F<sub>g</sub> = P<sub>g</sub> &divide; P &nbsp;&nbsp;|&nbsp;&nbsp; P = P<sub>g</sub> &divide; F<sub>g</sub><small>P<sub>g</sub> is the partial pressure, F<sub>g</sub> the gas fraction and P the absolute pressure in bar.</small></div>"+
+"<div class='tbl'><table><tr><th>You want</th><th>You know</th><th>Do this</th><th>Example</th></tr>"+
+"<tr><td>"+PO2+" at a depth</td><td>Mix and depth</td><td>F<sub>g</sub> &times; P</td><td class='mono'>EAN32, 30 m: 0.32 &times; 4.0 = 1.28 bar</td></tr>"+
+"<tr><td>Best mix for a depth</td><td>Max "+PO2+" and depth</td><td>P<sub>g</sub> &divide; P, round <b>down</b></td><td class='mono'>30 m at 1.4: 1.4 &divide; 4.0 = 0.35 &rarr; EAN35</td></tr>"+
+"<tr><td>Maximum depth (MOD)</td><td>Max "+PO2+" and mix</td><td>P<sub>g</sub> &divide; F<sub>g</sub>, then (P &minus; 1) &times; 10, round <b>down</b></td><td class='mono'>EAN32 at 1.4: 1.4 &divide; 0.32 = 4.375 bar &rarr; 33.75 m &rarr; 33 m</td></tr></table></div>"+
+"<p>Rounding always goes the safe way. Rounding a depth or an oxygen fraction <i>down</i> keeps the "+PO2+" below your limit. Module 4 works through MOD and best mix in detail.</p>"+
+"<h3>6. Henry's law: how nitrogen gets into you</h3>"+
+"<p>Think of a sealed bottle of soda. Under pressure, a lot of "+CO2+" dissolves invisibly into the liquid. Open the cap and the pressure drops, so the gas comes back out as bubbles. Open it slowly and it fizzes gently. Open it fast and it foams over. Your body is the bottle, and your ascent is the cap.</p>"+
+"<div class='formula'>Gas dissolved in a liquid &prop; partial pressure of that gas<small>This is Henry's law. The amount of a gas that dissolves into your blood and tissues is proportional to its partial pressure, not to the total pressure.</small></div>"+
+"<ul><li><b>Descending:</b> the "+PN2+" in your lungs is higher than in your tissues, so nitrogen flows in.</li>"+
+"<li><b>It takes time.</b> Tissues fill gradually towards the "+PN2+" you're breathing. Well-supplied &ldquo;fast&rdquo; tissues fill and empty quickly; &ldquo;slow&rdquo; tissues take much longer. Dive computers model this with a set of tissue compartments (for example, the 16 compartments of B&uuml;hlmann ZH-L16C), each with its own speed.</li>"+
+"<li><b>Ascending:</b> the "+PN2+" around you falls below the level in your tissues, so nitrogen flows back out and leaves through your lungs. Too fast and it forms bubbles, which is decompression sickness.</li>"+
+"<li><b>Other things speed uptake:</b> exertion (a higher heart rate moves more blood) and colder liquid (it holds more dissolved gas).</li></ul>"+
+"<p>This is where nitrox earns its keep. Less nitrogen in the mix means a lower "+PN2+" at every depth, so less nitrogen dissolves in the same time.</p>"+
+"<div class='tbl'><table><tr><th class='num'>Depth</th><th class='num'>Air "+PN2+"</th><th class='num'>EAN32 "+PN2+"</th><th class='num'>EAN36 "+PN2+"</th></tr>"+
+"<tr><td class='num'>18 m</td><td class='num'>2.21</td><td class='num'>1.90</td><td class='num'>1.79</td></tr>"+
+"<tr><td class='num'>25 m</td><td class='num'>2.77</td><td class='num'>2.38</td><td class='num'>2.24</td></tr>"+
+"<tr><td class='num'>30 m</td><td class='num'>3.16</td><td class='num'>2.72</td><td class='num'>2.56</td></tr>"+
+"<tr><td>Less than air</td><td class='num'>&mdash;</td><td class='num'><b>about 14%</b></td><td class='num'><b>about 19%</b></td></tr></table></div>"+
+"<div class='callout key'><b>The saving is the same at every depth</b>EAN32 has 0.68 &divide; 0.79 = 86% of air's nitrogen, so its "+PN2+" is about 14% lower at any depth. EAN36 has 0.64 &divide; 0.79 = 81%, about 19% lower. Module 5 turns this into the Equivalent Air Depth.</div>"+
+"<h3>7. Mistakes that cost exam marks</h3>"+
+"<div class='tbl'><table><tr><th>Mistake</th><th>Wrong</th><th>Right</th></tr>"+
+"<tr><td>Forgetting the +1</td><td class='mono'>EAN32, 30 m: 0.32 &times; 3 = 0.96</td><td class='mono'>0.32 &times; 4.0 = 1.28</td></tr>"+
+"<tr><td>Using the percentage, not the fraction</td><td class='mono'>32 &times; 4.0 = 128</td><td class='mono'>0.32 &times; 4.0 = 1.28</td></tr>"+
+"<tr><td>Thinking the mix changes with depth</td><td>&ldquo;Air at 10 m is 42% "+O2+"&rdquo;</td><td>Still 21%. The "+PO2+" is 0.42 bar.</td></tr>"+
+"<tr><td>Dividing the wrong way for best mix</td><td class='mono'>4.0 &divide; 1.4 = 2.86</td><td class='mono'>1.4 &divide; 4.0 = 0.35</td></tr>"+
+"<tr><td>Forgetting the &minus;1 when going from pressure to depth</td><td class='mono'>4.375 bar &rarr; 43.75 m</td><td class='mono'>(4.375 &minus; 1) &times; 10 = 33.75 m</td></tr>"+
+"<tr><td>Rounding MOD up</td><td class='mono'>33.75 m &rarr; 34 m</td><td class='mono'>33.75 m &rarr; 33 m</td></tr></table></div>"+
+"<h3>Practice: work it out, then tap to check</h3>"+
+"<details class='callout key'><summary><strong>1.</strong> What is the absolute pressure at 18 m?</summary><p>18 &divide; 10 + 1 = <strong>2.8 bar</strong>.</p></details>"+
+"<details class='callout key'><summary><strong>2.</strong> What are the "+PO2+" and "+PN2+" of EAN34 at 20 m?</summary><p>P<sub>abs</sub> = 3.0 bar. "+PO2+" = 0.34 &times; 3.0 = <strong>1.02 bar</strong>. "+PN2+" = 0.66 &times; 3.0 = <strong>1.98 bar</strong>. Check: 1.02 + 1.98 = 3.0.</p></details>"+
+"<details class='callout key'><summary><strong>3.</strong> What is the "+PO2+" of air at 40 m?</summary><p>0.21 &times; 5.0 = <strong>1.05 bar</strong>. Air has an oxygen limit too: 1.4 bar is reached at 1.4 &divide; 0.21 = 6.67 bar, which is 56 m after rounding down.</p></details>"+
+"<details class='callout key'><summary><strong>4.</strong> What is the best mix for 28 m at a "+PO2+" of 1.4?</summary><p>P<sub>abs</sub> = 3.8 bar. 1.4 &divide; 3.8 = 0.368. Round down to <strong>EAN36</strong>. Rounding up to 37% would put the "+PO2+" over 1.4 at 28 m.</p></details>"+
+"<details class='callout key'><summary><strong>5.</strong> What is the MOD of EAN36 at a "+PO2+" of 1.4?</summary><p>1.4 &divide; 0.36 = 3.89 bar. (3.89 &minus; 1) &times; 10 = 28.9 m. Round down to <strong>28 m</strong>.</p></details>"+
+"<details class='callout key'><summary><strong>6.</strong> You fill a 1 L lift bag at 30 m and let it go. How big is it at the surface?</summary><p>Boyle: 4.0 &times; 1 = 1.0 &times; V, so <strong>4 L</strong>. The same thing happens to the air in your lungs, which is why you never hold your breath on ascent.</p></details>"+
+"<p class='src'>Sources: TDI Diver Standards §6.10 (physics), RAID Nitrox manual (T formula), RAID Nitrox Management (Dalton's law, absolute pressure), SSI class transcript (Henry's law, uptake factors, tissue compartments and ZH-L16C). Boyle's law is general Open Water physics and isn't covered in the nitrox source documents.</p>",
 quiz:[
 {q:"What is the absolute pressure at 25 m in seawater?",a:["3.5 bar","2.5 bar","3.0 bar","4.5 bar"],why:"25 ÷ 10 + 1 = 3.5 bar. The +1 is the atmosphere above the water."},
 {q:"Which law says the total pressure of a gas mix is the sum of its partial pressures?",a:["Dalton's law","Boyle's law","Henry's law","Charles's law"],why:"Dalton's law is the basis of every PO₂ and PN₂ calculation."},
@@ -80,7 +144,14 @@ quiz:[
 {q:"What is the PO₂ of EAN32 at 30 m?",a:["1.28 bar","0.96 bar","1.60 bar","1.12 bar"],why:"0.32 × 4.0 = 1.28 bar. 0.96 comes from forgetting the +1 bar; 1.12 uses 3.5 bar."},
 {q:"What is the PN₂ of EAN36 at 20 m?",a:["1.92 bar","1.08 bar","1.28 bar","2.37 bar"],why:"FN₂ = 0.64 and P = 3.0 bar, so 0.64 × 3.0 = 1.92 bar. 2.37 is air's PN₂ at 20 m."},
 {q:"Using the T formula, how do you find the best oxygen fraction for a depth?",a:["Divide the maximum PO₂ by the absolute pressure","Divide the absolute pressure by the maximum PO₂","Multiply the maximum PO₂ by the absolute pressure","Subtract the absolute pressure from the maximum PO₂"],why:"Fg = Pg ÷ P. For example, 1.4 ÷ 4.0 = 0.35 (35%) at 30 m."},
-{q:"Which conversion do metric nitrox exams use?",a:["10 m of seawater = 1 bar","33 m = 1 bar","1 m = 1 bar","10 m = 0.1 bar"],why:"33 is the imperial figure (33 feet of seawater = 1 atm)."}
+{q:"Which conversion do metric nitrox exams use?",a:["10 m of seawater = 1 bar","33 m = 1 bar","1 m = 1 bar","10 m = 0.1 bar"],why:"33 is the imperial figure (33 feet of seawater = 1 atm)."},
+{q:"Your depth gauge reads 20 m. What absolute pressure are you breathing at?",a:["3.0 bar","2.0 bar","2.1 bar","20 bar"],why:"The water adds 2 bar and the atmosphere adds 1 bar. Nitrox maths always uses absolute pressure: 20 ÷ 10 + 1 = 3.0 bar."},
+{q:"A balloon holds 6 L at the surface. What is its volume at 20 m?",a:["2 L","3 L","4 L","1.5 L"],why:"Boyle's law: 1.0 × 6 = 3.0 × V, so V = 2 L. 3 L would be at 10 m and 1.5 L at 30 m."},
+{q:"Between which depths does gas volume change by the largest proportion?",a:["0 to 10 m","10 to 20 m","20 to 30 m","30 to 40 m"],why:"Pressure doubles from 1 to 2 bar in the first 10 m, so volume halves. From 30 to 40 m it only rises from 4 to 5 bar."},
+{q:"You work out PO₂ = 1.28 bar and PN₂ = 2.62 bar for EAN32 at 30 m. What does this tell you?",a:["There's a mistake, because the partial pressures must add up to 4.0 bar","Both answers are correct","The mix must be EAN34","The PO₂ is over the limit"],why:"PO₂ + PN₂ always equals the absolute pressure. 1.28 + 2.62 = 3.90, not 4.0. The correct PN₂ is 0.68 × 4.0 = 2.72 bar."},
+{q:"In the soda-bottle picture of Henry's law, what does opening the cap slowly stand for?",a:["A slow ascent, so dissolved nitrogen leaves without forming bubbles","A fast descent","Skipping the safety stop","Analysing the gas before the dive"],why:"Dropping the pressure slowly lets dissolved gas leave gently. Dropping it fast forms bubbles, which in a diver is decompression sickness."},
+{q:"Compared with air at the same depth, how much lower is the PN₂ on EAN36?",a:["About 19%, at every depth","About 36%","It depends on depth: the saving only appears below 30 m","There is no difference"],why:"0.64 ÷ 0.79 = 0.81, so EAN36's PN₂ is about 19% lower than air's at any depth. EAN32's is about 14% lower."},
+{q:"A diver works hard against a current at 25 m. What happens to their nitrogen uptake?",a:["It speeds up, because a higher heart rate moves more blood through the tissues","It slows down","It stops until they rest","Only oxygen uptake changes"],why:"Exertion increases circulation, which speeds gas uptake. The SSI class lists exertion as one of the factors in Henry's law."}
 ]},
 
 {id:"m3",title:"Oxygen: limits, toxicity and the CNS clock",short:"Oxygen toxicity",mins:15,

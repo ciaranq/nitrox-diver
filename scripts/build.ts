@@ -1,6 +1,6 @@
 // Build the deployable static site into dist/ (Vercel output directory).
 // The source page is artifact format (no doctype/head), so the build wraps it in a full document.
-import { copyFileSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { copyFileSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
 const root = join(import.meta.dir, "..");
@@ -22,9 +22,14 @@ const head = [
 writeFileSync(join(out, "index.html"), head + "\n" + page);
 for (const f of ["nitrox-math.js", "content.js"]) copyFileSync(join(src, f), join(out, f));
 
+// Designs: concatenate every design stylesheet (tide first, then alphabetical) and ship the registry script.
+const designFiles = readdirSync(join(src, "designs")).filter((f) => f.endsWith(".css")).sort((a, b) => (a === "tide.css" ? -1 : b === "tide.css" ? 1 : a.localeCompare(b)));
+writeFileSync(join(out, "designs.css"), designFiles.map((f) => `/* ${f} */\n` + readFileSync(join(src, "designs", f), "utf8")).join("\n"));
+copyFileSync(join(src, "designs", "designs.js"), join(out, "designs.js"));
+
 // Smoke check the output so a broken build can't pass silently.
 const built = readFileSync(join(out, "index.html"), "utf8");
-for (const needle of ["<!doctype html>", "<title>Nitrox Study Course</title>", 'src="nitrox-math.js"', 'src="content.js"']) {
+for (const needle of ["<!doctype html>", "<title>Nitrox Study Course</title>", 'src="nitrox-math.js"', 'src="content.js"', 'href="designs.css"', 'src="designs.js"']) {
   if (!built.includes(needle)) { console.error(`build: dist/index.html missing ${needle}`); process.exit(1); }
 }
-console.log("build: dist/ ready (index.html, nitrox-math.js, content.js)");
+console.log("build: dist/ ready (index.html, nitrox-math.js, content.js, designs.css, designs.js)");

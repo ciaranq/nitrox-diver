@@ -4,35 +4,11 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap">
+<link rel="stylesheet" href="designs.css">
+<script src="designs.js"></script>
 <style>
 /* Layout: sticky glass header + left module rail (collapses to a top select on phones) + one reading/quiz pane.
    Signature motif: the yellow cylinder with its green nitrox band, used for progress and the contents label. */
-:root{
-  --bg:#e9f3f4; --bg2:#d5e9ec; --surface:rgba(255,255,255,.74); --surface-solid:#ffffff;
-  --ink:#0b2430; --muted:#4b6670; --line:rgba(11,36,48,.13);
-  --accent:#08798a; --accent-ink:#ffffff; --accent-soft:rgba(8,121,138,.12);
-  --tank:#f2c230; --band:#178f4c; --good:#178f4c; --good-soft:rgba(23,143,76,.13);
-  --bad:#c93c32; --bad-soft:rgba(201,60,50,.12); --warn:#a86a00; --warn-soft:rgba(242,194,48,.22);
-  --shadow:0 10px 30px -12px rgba(11,36,48,.25);
-  --f-display:"Bricolage Grotesque","Avenir Next","Segoe UI",system-ui,sans-serif;
-  --f-body:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
-  --f-mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
-  --r:14px;
-}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
-  --bg:#05161d; --bg2:#0a2a35; --surface:rgba(14,42,54,.66); --surface-solid:#0d2731;
-  --ink:#e4f2f4; --muted:#93b1b9; --line:rgba(228,242,244,.12);
-  --accent:#3ccbd8; --accent-ink:#04161c; --accent-soft:rgba(60,203,216,.14);
-  --tank:#ffd24a; --band:#3fcf7f; --good:#3fcf7f; --good-soft:rgba(63,207,127,.14);
-  --bad:#ff7a6e; --bad-soft:rgba(255,122,110,.14); --warn:#ffd24a; --warn-soft:rgba(255,210,74,.14);
-  --shadow:0 14px 34px -14px rgba(0,0,0,.6); color-scheme:dark}}
-:root[data-theme="dark"]{
-  --bg:#05161d; --bg2:#0a2a35; --surface:rgba(14,42,54,.66); --surface-solid:#0d2731;
-  --ink:#e4f2f4; --muted:#93b1b9; --line:rgba(228,242,244,.12);
-  --accent:#3ccbd8; --accent-ink:#04161c; --accent-soft:rgba(60,203,216,.14);
-  --tank:#ffd24a; --band:#3fcf7f; --good:#3fcf7f; --good-soft:rgba(63,207,127,.14);
-  --bad:#ff7a6e; --bad-soft:rgba(255,122,110,.14); --warn:#ffd24a; --warn-soft:rgba(255,210,74,.14);
-  --shadow:0 14px 34px -14px rgba(0,0,0,.6); color-scheme:dark}
 
 *{box-sizing:border-box}
 body{background:var(--bg);color:var(--ink);font:15.5px/1.6 var(--f-body);
@@ -58,6 +34,8 @@ header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;backgroun
 .top-progress span{font:600 .8rem var(--f-mono);color:var(--muted);white-space:nowrap}
 .iconbtn{border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:10px;padding:6px 10px;font:600 .8rem var(--f-body);cursor:pointer}
 .iconbtn:hover{background:var(--accent-soft)}
+select.iconbtn{max-width:6.2rem;flex:0 0 auto;appearance:auto;padding:6px 6px}
+select.iconbtn option{color:#000;background:#fff}
 
 .shell{display:grid;grid-template-columns:280px minmax(0,1fr);gap:28px;max-width:1280px;margin:0 auto;padding-block:24px 80px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 nav.rail{position:sticky;top:calc(env(safe-area-inset-top,0px) + 70px);align-self:start;max-height:calc(100vh - 100px);overflow:auto;display:flex;flex-direction:column;gap:4px}
@@ -168,6 +146,7 @@ td.num,th.num{text-align:right}
       <div class="bandbar" aria-hidden="true"><i id="pbar"></i></div>
       <span id="ptext">0/9 passed</span>
     </div>
+    <select class="iconbtn" id="designSel" aria-label="Design"></select>
     <button class="iconbtn" id="themeBtn" type="button" aria-label="Toggle light or dark theme">Theme</button>
   </div>
 </header>
@@ -268,7 +247,6 @@ function homeView(){
   "<li><div><b>Work through Modules 1 to 9</b> and pass each quiz with 80% or more.</div></li>"+
   "<li><div><b>Drill the calculations</b> until you can do MOD, best mix and EAD without hesitating.</div></li>"+
   "<li><div><b>Score 90% or more on the final exam</b> twice in a row.</div></li>"+
-  "<li><div><b>Book the cheapest dry course</b> (see <span class='mono'>cheapest-path-sydney.md</span>) and do that agency's eLearning or exam.</div></li>"+
   "<li><div><b>Practical sign-off:</b> analyse, label, log and set your computer in front of the instructor.</div></li></ol>"+
   "<h3>Sources in this repo (<span class='mono'>certifiers/</span>)</h3><div class='tbl'><table><tr><th>Folder</th><th>What it is</th></tr>"+
   "<tr><td class='mono'>tdi/</td><td>TDI Standards and Procedures, Parts 1 to 3, plus the Advanced Nitrox and instructor excerpts (v0126)</td></tr>"+
@@ -418,6 +396,15 @@ try{var st=localStorage.getItem(KEY+"-theme");if(st){ti=themes.indexOf(st);if(ti
 function applyTheme(){var t=themes[ti];if(t)document.documentElement.setAttribute("data-theme",t);else document.documentElement.removeAttribute("data-theme");$("#themeBtn").textContent=t?(t==="dark"?"Dark":"Light"):"Auto";try{if(t)localStorage.setItem(KEY+"-theme",t);else localStorage.removeItem(KEY+"-theme");}catch(e){}}
 $("#themeBtn").addEventListener("click",function(){ti=(ti+1)%3;applyTheme();});
 applyTheme();
+
+/* design picker: designs live in designs/*.css (bundled as designs.css) and are registered in designs.js */
+(function(){
+  var sel=$("#designSel"),ND=window.NitroxDesigns;
+  if(!sel||!ND){if(sel)sel.hidden=true;return;}
+  window.NITROX_DESIGNS.forEach(function(d){var o=document.createElement("option");o.value=d.id;o.textContent=d.name;sel.appendChild(o);});
+  sel.value=ND.current();
+  sel.addEventListener("change",function(){ND.apply(sel.value);});
+})();
 route();
 })();
 </script>

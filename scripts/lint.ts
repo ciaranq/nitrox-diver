@@ -1,6 +1,6 @@
 // Lint for the static course: script syntax, page contract, and quiz content shape.
 // Exits non-zero on any problem. Run with `bun run lint`.
-import { readFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 
 const root = join(import.meta.dir, "..");
@@ -27,7 +27,42 @@ const mathAt = html.indexOf('<script src="nitrox-math.js">'), contentAt = html.i
 if (mathAt < 0 || contentAt < 0 || !(mathAt < contentAt && contentAt < inlineAt)) fail("scripts must load in order: nitrox-math.js, content.js, inline app");
 for (const m of html.matchAll(/<script[^>]+src="(https?:[^"]+)"/g)) fail(`external script not allowed: ${m[1]}`);
 
-// 3. Content shape
+// 3. Designs
+const designsDir = join(course, "designs");
+const designsJs = readFileSync(join(designsDir, "designs.js"), "utf8");
+syntax("designs/designs.js", designsJs);
+const registry = [...designsJs.matchAll(/\{id:"([a-z0-9-]+)"/g)].map((m) => m[1]);
+const cssIds = readdirSync(designsDir).filter((f) => f.endsWith(".css")).map((f) => f.slice(0, -4));
+const tokenNames = (block: string) => new Set([...block.matchAll(/(--[a-z0-9-]+)\s*:/g)].map((m) => m[1]));
+const tideCss = readFileSync(join(designsDir, "tide.css"), "utf8");
+const tideBlocks = [...tideCss.matchAll(/([^{}@]+)\{([^{}]*)\}/g)].map((m) => ({ sel: m[1].trim(), body: m[2] }));
+const canonLight = [...tokenNames(tideBlocks.find((r) => r.sel === ":root")?.body ?? "")];
+const canonDark = [...tokenNames(tideBlocks.find((r) => r.sel === ':root[data-theme="dark"]')?.body ?? "")]; // dark inherits fonts/radius from light
+for (const id of cssIds) {
+  if (!registry.includes(id)) fail(`designs/${id}.css has no entry in designs.js`);
+  if (!existsSync(join(designsDir, `${id}.DESIGN.md`))) fail(`designs/${id}.DESIGN.md is missing`);
+  const css = readFileSync(join(designsDir, `${id}.css`), "utf8");
+  // Rule blocks: selector { body } (the dark @media wraps one rule, so take innermost selector/body pairs).
+  const rules = [...css.matchAll(/([^{}@]+)\{([^{}]*)\}/g)].map((m) => ({ sel: m[1].trim(), body: m[2] }));
+  const tokenRules = rules.filter((r) => /--bg\s*:/.test(r.body) || /--ink\s*:/.test(r.body));
+  if (id !== "tide") {
+    for (const r of rules) if (!r.sel.includes(`[data-design="${id}"]`)) fail(`designs/${id}.css: selector not scoped to data-design="${id}": ${r.sel}`);
+    const hasLight = tokenRules.some((r) => r.sel === `:root[data-design="${id}"]`);
+    const hasDarkMedia = tokenRules.some((r) => r.sel === `:root[data-design="${id}"]:not([data-theme="light"])`);
+    const hasDarkAttr = tokenRules.some((r) => r.sel === `:root[data-design="${id}"][data-theme="dark"]`);
+    if (!hasLight || !hasDarkMedia || !hasDarkAttr) fail(`designs/${id}.css: needs light, prefers-color-scheme dark and data-theme="dark" token blocks`);
+  } else if (tokenRules.length !== 3) fail(`designs/tide.css: expected 3 token blocks, found ${tokenRules.length}`);
+  for (const r of tokenRules) {
+    const have = tokenNames(r.body);
+    const canonical = /\[data-theme="(dark|light)"\]/.test(r.sel) ? canonDark : canonLight;
+    const missing = canonical.filter((t) => !have.has(t));
+    if (missing.length) fail(`designs/${id}.css [${r.sel}]: missing tokens ${missing.join(", ")}`);
+  }
+}
+for (const id of registry) if (!cssIds.includes(id)) fail(`designs.js registers "${id}" but designs/${id}.css does not exist`);
+if (!html.includes('href="designs.css"') || !html.includes('src="designs.js"')) fail("nitrox-course.html must link designs.css and designs.js");
+
+// 4. Content shape
 await import(join(course, "nitrox-math.js"));
 await import(join(course, "content.js"));
 const { MODULES } = (globalThis as any).NitroxContent;
@@ -57,4 +92,4 @@ if (errors.length) {
   console.error(`lint: ${errors.length} problem(s)\n` + errors.map((e) => "  ✗ " + e).join("\n"));
   process.exit(1);
 }
-console.log(`lint: ok (${MODULES.length} modules, ${questions.size} questions, 3 scripts)`);
+console.log(`lint: ok (${MODULES.length} modules, ${questions.size} questions, 3 scripts, ${cssIds.length} designs)`);

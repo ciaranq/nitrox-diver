@@ -1,0 +1,37 @@
+:root[data-design="logbook"]{
+  --bg:#f3ead6; --bg2:#e8dcc0; --surface:rgba(255,250,240,.88); --surface-solid:#fffaf0;
+  --ink:#14213d; --muted:#4d5468; --line:rgba(20,33,61,.22);
+  --accent:#a3191f; --accent-ink:#ffffff; --accent-soft:rgba(163,25,31,.1);
+  --tank:#e0a82e; --band:#1f6b3a; --good:#1f6b3a; --good-soft:rgba(31,107,58,.12);
+  --bad:#b42318; --bad-soft:rgba(180,35,24,.1); --warn:#8a5a00; --warn-soft:rgba(224,168,46,.2);
+  --shadow:0 2px 0 rgba(20,33,61,.1);
+  --f-display:"Fraunces",Georgia,"Times New Roman",serif;
+  --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --r:6px;
+}
+@media (prefers-color-scheme:dark){:root[data-design="logbook"]:not([data-theme="light"]){
+  --bg:#111827; --bg2:#1a2438; --surface:rgba(24,34,53,.86); --surface-solid:#182235;
+  --ink:#efe6d0; --muted:#a7b0c3; --line:rgba(239,230,208,.2);
+  --accent:#ff7468; --accent-ink:#1b0a09; --accent-soft:rgba(255,116,104,.14);
+  --tank:#f0c050; --band:#5fd08a; --good:#5fd08a; --good-soft:rgba(95,208,138,.14);
+  --bad:#ff8a80; --bad-soft:rgba(255,138,128,.14); --warn:#f0c050; --warn-soft:rgba(240,192,80,.14);
+  --shadow:0 2px 0 rgba(0,0,0,.45); color-scheme:dark;
+  --f-display:"Fraunces",Georgia,"Times New Roman",serif;
+  --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --r:6px;}}
+:root[data-design="logbook"][data-theme="dark"]{
+  --bg:#111827; --bg2:#1a2438; --surface:rgba(24,34,53,.86); --surface-solid:#182235;
+  --ink:#efe6d0; --muted:#a7b0c3; --line:rgba(239,230,208,.2);
+  --accent:#ff7468; --accent-ink:#1b0a09; --accent-soft:rgba(255,116,104,.14);
+  --tank:#f0c050; --band:#5fd08a; --good:#5fd08a; --good-soft:rgba(95,208,138,.14);
+  --bad:#ff8a80; --bad-soft:rgba(255,138,128,.14); --warn:#f0c050; --warn-soft:rgba(240,192,80,.14);
+  --shadow:0 2px 0 rgba(0,0,0,.45); color-scheme:dark;
+  --f-display:"Fraunces",Georgia,"Times New Roman",serif;
+  --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --r:6px;}
+
+/* Logbook extras: flat paper, no glow gradients */
+:root[data-design="logbook"] body{background-image:none}
